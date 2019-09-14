@@ -2,13 +2,13 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import Main from './pages/Main';
-import User from './pages/Detail';
+import Detail from './pages/Detail';
 
 const Routes = createAppContainer(
   createStackNavigator(
     {
       Main,
-      User,
+      Detail,
     },
     {
       headerLayoutPreset: 'center',
