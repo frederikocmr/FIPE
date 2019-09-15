@@ -28,24 +28,21 @@ import HorsepowerImage from '../../assets/images/horsepower.png';
 const propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
+    getParam: PropTypes.func,
   }).isRequired,
 };
 
 class Detail extends Component {
   constructor(props) {
     super(props);
+
+    const { navigation } = this.props;
+    const car = navigation.getParam('car');
+
+    console.tron.log(car);
+
     this.state = {
-      car: {
-        id: '1',
-        brand: 'Marca',
-        model: 'Modelo',
-        year: 'Ano',
-        price: 'R$ 120.700,00',
-        fuel: 'Álcool',
-        horsepower: '450 cv',
-        displacement: '1.000',
-        code: '56712-1',
-      },
+      car,
     };
   }
 
@@ -95,7 +92,7 @@ class Detail extends Component {
               <InfoValue>{car.displacement}</InfoValue>
             </InfoItem>
           </Info>
-          <Code>Código FIPE: {car.code}</Code>
+          <Code>Código FIPE: {car.fipe}</Code>
         </Card>
       </Container>
     );

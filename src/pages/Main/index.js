@@ -1,9 +1,17 @@
-import { ActivityIndicator, Text, Image, ToastAndroid } from 'react-native';
+/* eslint-disable no-await-in-loop */
+import {
+  ActivityIndicator,
+  Text,
+  View,
+  Image,
+  ToastAndroid,
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import api from '../../services/api';
+import Utils from '../../utils/filterCars';
 
 import {
   Container,
@@ -23,6 +31,8 @@ import {
   Price,
   PriceStaticText,
   PriceText,
+  Waiting,
+  WaitingText,
 } from './styles';
 
 import SearchImage from '../../assets/images/search.png';
@@ -40,29 +50,21 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      cars: [],
       carModel: '',
-      cars: [
-        {
-          id: '1',
-          brand: 'Marca',
-          model: 'Modelo',
-          transmission: 'Transmissão',
-          price: 'R$ 92.799,00',
-        },
-      ],
+      randomBrand: 0,
+      bufferSize: 10,
       loading: false,
+      loadingList: true,
     };
   }
 
   async componentDidMount() {
     try {
       const randomBrand = await this.getRandomBrand();
+      const cars = await this.getCarsFromBrand(randomBrand);
 
-      if (randomBrand !== null) {
-        const cars = await this.getCars(randomBrand);
-
-        this.setState({ cars });
-      }
+      this.setState({ cars, randomBrand, loadingList: false });
     } catch (error) {
       this.showError('no servidor', error);
     }
@@ -91,49 +93,57 @@ class Main extends Component {
     }
   };
 
-  getCars = async brand => {
+  getCarsFromBrand = async brand => {
+    const { bufferSize, randomBrand } = this.state;
+    const brandToSearch = brand !== null ? brand : randomBrand;
+    brandToSearch.id = 47;
     try {
-      const { data } = await api.get(`/marcas/${brand.id}/modelos`);
-      console.tron.log(data);
+      const { data } = await api.get(`/marcas/${brandToSearch.id}/modelos`);
 
-      const cars = data.modelos.map(value => ({
-        id: String(value.codigo),
-        model: this.getCarName(value.nome.split(' ')),
-        brand: brand.name,
-        transmission: this.getCarTransmission(value.nome.split(' ')),
-        price: 'R$ 92.799,00',
-      }));
+      const cars = await this.getCars(
+        data.modelos.slice(bufferSize - bufferSize, bufferSize),
+        brandToSearch.id
+      );
 
-      console.tron.log(cars);
-
-      return cars.slice(0, 10);
+      return cars;
     } catch (error) {
       this.showError('os modelos', error);
       return [];
     }
   };
 
-  getCarName = value => {
-    let name = '';
+  getCars = async (models, brandId) => {
+    const carsArray = [];
 
-    for (let i = 0; i < 3; i += 1) {
-      if (Number(value[i]) > 0 || !value[i]) {
-        name += '';
-      } else {
-        name += `${value[i]} `;
-      }
-    }
-    return name;
-  };
+    for (let index = 0; index < models.length; index += 1) {
+      const modelId = String(models[index].codigo);
+      const { data: anos } = await api.get(
+        `/marcas/${brandId}/modelos/${modelId}/anos`
+      );
 
-  getCarTransmission = value => {
-    if (value.indexOf('Aut.') >= 0) {
-      return 'Automático';
+      const { codigo: yearId } = anos[anos.length - 1];
+
+      const { data: infos } = await api.get(
+        `/marcas/${brandId}/modelos/${modelId}/anos/${yearId}`
+      );
+
+      const cars = {
+        id: String(index),
+        brand: infos.Marca,
+        model: Utils.getCarName(infos.Modelo),
+        transmission: Utils.getCarTransmission(infos.Modelo),
+        price: infos.Valor,
+        year: infos.AnoModelo,
+        fuel: infos.Combustivel,
+        horsepower: Utils.getCarHorsepower(infos.Modelo),
+        displacement: Utils.getCarDisplacement(infos.Modelo),
+        fipe: infos.CodigoFipe,
+      };
+
+      carsArray.push(cars);
     }
-    if (value.indexOf('Man.') >= 0) {
-      return 'Manual';
-    }
-    return null;
+
+    return carsArray;
   };
 
   showError = (text, error) => {
@@ -161,6 +171,56 @@ class Main extends Component {
   handleNavigate = car => {
     const { navigation } = this.props;
     navigation.navigate('Detail', { car });
+  };
+
+  loadItems = () => {
+    // this.setState({ loadingList: true });
+  };
+
+  renderItem = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => {
+        this.handleNavigate(item);
+      }}
+    >
+      <Car>
+        <Figure source={CarImage} />
+        <Info>
+          <Brand>{item.brand}</Brand>
+          <Model>{item.model}</Model>
+          {item.transmission ? (
+            <Transmission>
+              <TransmissionIcon
+                source={
+                  item.transmission === 'Manual' ? SettingsImage : LightingImage
+                }
+              />
+              <TransmissionText>{item.transmission}</TransmissionText>
+            </Transmission>
+          ) : (
+            <Text> &nbsp; </Text>
+          )}
+          <PriceStaticText>Preço</PriceStaticText>
+          <Price>
+            <PriceText small>{item.price.split(' ')[0]}</PriceText>
+            <PriceText>{item.price.split(' ')[1].split(',')[0]}</PriceText>
+            <PriceText small>{item.price.slice(-3)}</PriceText>
+          </Price>
+        </Info>
+      </Car>
+    </TouchableOpacity>
+  );
+
+  renderFooter = () => {
+    const { loadingList } = this.state;
+
+    if (!loadingList) return null;
+    return (
+      <Waiting>
+        <WaitingText>Aguarde, estamos buscando os veículos!</WaitingText>
+        <ActivityIndicator size="large" color="#475ad1" />
+      </Waiting>
+    );
   };
 
   render() {
@@ -191,46 +251,10 @@ class Main extends Component {
         <List
           data={cars}
           keyExtractor={car => car.id}
-          onEndReached={({ distanceFromEnd }) => {
-            console.tron.log(distanceFromEnd);
-          }}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => {
-                this.handleNavigate(item);
-              }}
-            >
-              <Car>
-                <Figure source={CarImage} />
-                <Info>
-                  <Brand>{item.brand}</Brand>
-                  <Model>{item.model}</Model>
-                  {item.transmission ? (
-                    <Transmission>
-                      <TransmissionIcon
-                        source={
-                          item.transmission === 'Manual'
-                            ? SettingsImage
-                            : LightingImage
-                        }
-                      />
-                      <TransmissionText>{item.transmission}</TransmissionText>
-                    </Transmission>
-                  ) : (
-                    <Text> &nbsp; </Text>
-                  )}
-                  <PriceStaticText>Preço</PriceStaticText>
-                  <Price>
-                    <PriceText small>{item.price.substring(0, 2)}</PriceText>
-                    <PriceText>
-                      {item.price.split(' ')[1].split(',')[0]}
-                    </PriceText>
-                    <PriceText small>{item.price.slice(-3)}</PriceText>
-                  </Price>
-                </Info>
-              </Car>
-            </TouchableOpacity>
-          )}
+          onEndReached={this.loadItems}
+          renderItem={this.renderItem}
+          onEndReachedThreshold={0.1}
+          ListFooterComponent={this.renderFooter}
         />
       </Container>
     );

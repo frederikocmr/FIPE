@@ -144,3 +144,24 @@ export const PriceText = styled.Text`
   font-weight: bold;
   margin-right: 2px;
 `;
+
+export const Waiting = styled.View`
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  border: 1px solid #fff;
+  border-radius: 13px;
+  padding: 20px 26px;
+  margin-bottom: 20px;
+  height: 152px;
+`;
+
+export const WaitingText = styled.Text`
+  font-family: 'Product Sans Bold';
+  text-align: left;
+  font-weight: bold;
+  color: rgba(8, 13, 45, 0.3);
+  margin-bottom: 10px;
+`;

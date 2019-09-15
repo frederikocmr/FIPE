@@ -29,7 +29,7 @@ export const Card = styled.View`
   border: #fff;
   border-radius: 13px;
   padding: 20px 26px;
-  margin-bottom: 54.6px;
+  margin-bottom: 20px;
   height: 462px;
   border-width: 0px;
   /* iOS */
