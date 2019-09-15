@@ -142,4 +142,5 @@ export const PriceText = styled.Text`
   font-family: 'Product Sans Bold';
   text-align: left;
   font-weight: bold;
+  margin-right: 2px;
 `;

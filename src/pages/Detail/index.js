@@ -10,6 +10,7 @@ import {
   CarFigure,
   Name,
   Price,
+  PriceText,
   Info,
   InfoItem,
   InfoItemImage,
@@ -67,7 +68,10 @@ class Detail extends Component {
           <Name>
             {car.brand} - {car.model} ({car.year})
           </Name>
-          <Price>{car.price}*</Price>
+          <Price>
+            <PriceText small>{car.price.substring(0, 2)}</PriceText>
+            <PriceText>{car.price.substring(3, 13)}*</PriceText>
+          </Price>
           <Info>
             <InfoItem>
               <InfoItemImage>

@@ -31,6 +31,14 @@ export const Card = styled.View`
   padding: 20px 26px;
   margin-bottom: 54.6px;
   height: 462px;
+  border-width: 0px;
+  /* iOS */
+  shadow-color: #003cff;
+  shadow-opacity: 0.7;
+  shadow-offset: 0px 10px;
+  shadow-radius: 30px;
+  /* Android (incompatibilidade) */
+  /* elevation: 30px; */
 `;
 
 export const CarFigure = styled.Image``;
@@ -45,12 +53,21 @@ export const Name = styled.Text`
   margin-top: 20.6px;
 `;
 
-export const Price = styled.Text`
+export const Price = styled.View`
+  flex-direction: row;
+  align-items: baseline;
+  align-items: center;
+  margin-top: 5px;
+`;
+
+export const PriceText = styled.Text`
   font-family: 'Product Sans Bold';
   text-align: left;
   font-size: 26px;
   line-height: 31px;
-  margin-top: 11px;
+  margin-right: 5px;
+  font-size: ${props => (props.small ? 14 : 26)};
+  margin-top: ${props => (props.small ? 6 : 0)};
 `;
 
 export const Info = styled.View`
