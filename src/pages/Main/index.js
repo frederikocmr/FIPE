@@ -89,7 +89,6 @@ class Main extends Component {
     return (
       <Container>
         <Header>Carros </Header>
-
         <Form>
           <Input
             autoCorrect={false}
@@ -104,8 +103,8 @@ class Main extends Component {
             {loading ? (
               <ActivityIndicator color="#FFF" />
             ) : (
-              <Image source={SearchImage} />
-            )}
+                <Image source={SearchImage} />
+              )}
           </SubmitButton>
         </Form>
 

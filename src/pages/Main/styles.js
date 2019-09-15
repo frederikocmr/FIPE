@@ -3,7 +3,7 @@ import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
-  padding: 36px;
+  padding: 36px 36px 10px 36px;
   background-color: #f6f7f9;
 `;
 
