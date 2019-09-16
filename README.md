@@ -12,10 +12,19 @@ Diante da implementação feita neste projeto, posso dizer que a minha metodolog
 
 - Após terminado a interface visual, comecei a implementar o consumo da API utilizando o Axios. Para algumas regras foram criadas funções definidas na pasta de utilitários, e outras regras tentei seguir um padrão mais limpo e manter tudo no arquivo do componente, que foi feito seguindo o modelo de classe.
 
-- Para a renderização dos dados, utilizei o componente FlatList e criei uma função específica para renderizar cada item e ter um melhor acesso a aqueles dados.
+- Para a renderização dos dados, utilizei o componente FlatList inicialmente mas depois tive que trocar para o ScrollView, pois criei uma função específica para renderizar cada item e ter um melhor acesso a aqueles dados sem que houvesse algum compromentimento no desempenho e também no visual quando os itens estão carregando.
 
 - Os testes foram todos feitos no Android, utilizando a última versão no modelo Pixel 3, na API 28.
 
 - Consegui tratar todas as informações e replicar as telas propostas, foi um desafio complexo a partir do momento que percebi que os dados da API Rest viriam sem paginação, ou seja, vários dados a serem tratados e também várias requisições a serem feitas. Para isso eu me preocupei com o desempenho, principalmente da listagem dos dados, e criei a paginação interna dos dados no array, seguindo um fluxo parecido com "infinity scroll", onde renderizava de 10 em 10 itens na medida que o usuário iria abaixando a listagem.
 
 ## **Execução **
+
+- Os passos após ter clonado e baixado todos os arquivos pelo Git são:
+  -- Certifique-se de que tenha o NodeJS instalado.
+  -- Instalar todas as dependencias com: `yarn` ou `npm install` dependendo do gerenciador de pacotes instalados (recomendo o yarn).
+  -- Para rodar no Android, certifique-se de que esteja com o ambiente do Android instalado, como SDK do Android, JDK8 uma Virtual Device do Android e rodando. Ou somente tenha um dispositivo conectado pelo USB com o modo Debug ativado.
+  -- Do mesmo modo, para rodar no iOS, certifique-se de que esteja com todos os requisitos de ambiente instalados e o XCode rodando com um dispositivo virtual.
+  -- Execute os comandos: `react-native run-android` ou `react-native run-ios` dependendo do dispositivo disponível.
+
+* Recomendável instalar o CLI do React Native globalmente.
