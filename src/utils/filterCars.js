@@ -30,7 +30,7 @@ function getCarHorsepower(value) {
   let horsepower = 'Indisp.';
 
   value.forEach(element => {
-    if (element.indexOf('cv')) {
+    if (element.indexOf('cv') > 0) {
       const match = element.match(/(\d+)/);
       if (match) {
         horsepower = `${String(match[0])} cv`;
@@ -46,7 +46,7 @@ function getCarDisplacement(value) {
   let displacement = 'Indisp.';
 
   value.forEach(element => {
-    if (element.indexOf('.')) {
+    if (element.indexOf('.') > 0) {
       let num = Number(element);
 
       if (!isNaN(num)) {

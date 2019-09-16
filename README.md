@@ -1,62 +1,21 @@
 # Desafio React Native - Liber
 
-## Index
+## **Detalhes da Solução**
 
-- [Desafio React Native - Liber](#Desafio-React-Native---Liber)
-	- [Index](#Index)
-	- [**Introdução**](#Introdu%C3%A7%C3%A3o)
-	- [**Descrição**](#Descri%C3%A7%C3%A3o)
-	- [**Apresentação**](#Apresenta%C3%A7%C3%A3o)
-	- [**Avaliação**](#Avalia%C3%A7%C3%A3o)
-	- [**Envio**](#Envio)
-	- [**Observações Finais e Prazo**](#Observa%C3%A7%C3%B5es-Finais-e-Prazo)
+Diante da implementação feita neste projeto, posso dizer que a minha metodologia de abordagem diante das regras foi a seguinte:
 
-## **Introdução**
+- Primeiramente criei a base da aplicação e instalei os componentes básicos que pensei ser necessário, tais como configuração do ESLint junto com o prettier para forçar a estilização e as boas práticas de implemetação. Utilizei o Reactotron para debugar de forma mais fácil.
 
-Seu desafio será criar uma aplicação React Native capaz de interagir com a seguinte API RESTful de carros: https://deividfortuna.github.io/fipe/.
+- Após isto, comecei inicializando a estruturura do sistema, onde foi criado uma pasta "src" para centralizar todos os documentos desenvolvidos e manter uma melhor organização estrutural, criando as pastas de páginas, serviços, utilitários, configuração e dos "assets".
 
-## **Descrição**
+- O primeiro ponto chave que abordei para manter um foco inicial foi na interface, então criei páginas e os componentes que achei necessário afim de replicar a interface proposta, utilizando a biblioteca Styled Components que visa facilitar a questão de estilização por poder usar estilos nativos do CSS, evitar criar um arquivo para cada componente e centralizar os componentes que serão somente estilizados em uma determinada página. Ao implementar toda a interface criei já o modelo de como seriam os dados, para também padronizar e não ter problemas futuros ao chamar a API.
 
-O objetivo da aplicação será replicar uma interface para visualizar dados de carros de uma marca aleatória a cada vez que você reiniciar o app, utilizando as seguintes referências:
+- Após terminado a interface visual, comecei a implementar o consumo da API utilizando o Axios. Para algumas regras foram criadas funções definidas na pasta de utilitários, e outras regras tentei seguir um padrão mais limpo e manter tudo no arquivo do componente, que foi feito seguindo o modelo de classe.
 
-**Protótipo:** https://xd.adobe.com/view/c1352240-1398-474b-76a5-589b836fc663-b704
+- Para a renderização dos dados, utilizei o componente FlatList e criei uma função específica para renderizar cada item e ter um melhor acesso a aqueles dados.
 
-**Dev:** https://xd.adobe.com/spec/81b9d0f0-3d5b-4a2c-73a5-ad7c859a508a-f788/
+- Os testes foram todos feitos no Android, utilizando a última versão no modelo Pixel 3, na API 28.
 
-Note que você conseguirá baixar todos os assets necessários através do link de dev acima. Basta clicar sobre a imagem/ícone e usar o botão azul "Baixar" do lado direito. Além disso, através desse link você conseguirá acessar todas as informações de estilo que você precisará para desenvolver as telas. O link do protótipo servirá para você visualizar o funcionamento das telas e interagir com as mesmas.
+- Consegui tratar todas as informações e replicar as telas propostas, foi um desafio complexo a partir do momento que percebi que os dados da API Rest viriam sem paginação, ou seja, vários dados a serem tratados e também várias requisições a serem feitas. Para isso eu me preocupei com o desempenho, principalmente da listagem dos dados, e criei a paginação interna dos dados no array, seguindo um fluxo parecido com "infinity scroll", onde renderizava de 10 em 10 itens na medida que o usuário iria abaixando a listagem.
 
-A primeira tela, corresponde a uma lista de carros com as seguintes informações: marca, modelo, câmbio e preço. Vale notar que essa API retorna informações a mais no campo de modelo. Nesse caso o seu desafio será tratar essa informação de modo que nessa tela seja mostrado apenas o nome do modelo, sem essas informações adicionais. 
-
-**Exemplos**: 
-
-| Modelo | Resultado |
----------| -----------
-| Fit EX/ S 1.5/ EX 1.5 Flex 16V 5p Mec. | Fit EX/ S |
-| Fit EXL 1.5 Flex 16V 5p Mec | Fit EXL |
-| HR-V EXL 1.8 Flexone 16V 5p Aut. | HR-V EXL |
-
-**A única informação adicional que você utilizará nessa tela será a de câmbio**, que nem sempre estará disponível. Nesse caso, você não deve mostrar nada.
-
-**Com relação a pesquisa**, basta que o usuário seja capaz de filtrar a lista pelo modelo. Vale lembrar que a lista deve estar com os modelos filtrados conforme a tabela anterior.
-
-Ao clicar em um dos itens da lista acima, o usuário deverá ir para uma nova tela que mostrará mais detalhes do carro.
-
-Para essa segunda tela, você mostrará as seguintes informações do veículo selecionado anteriormente: ano, marca, modelo, combustível, potência, cilindras, preço e código FIPE. Note que, assim como no caso anterior, essas informações nem sempre estão disponíveis e estão misturadas no meio da string de modelo. Nesse caso, diferentemente da tela anterior, você deve colocar a string **"Indisponível"** no local da informação. **Faz parte do desafio o tratamento dessas informações para mostrar ao usuário**. Por fim, não se esqueça do botão de voltar para a tela anterior.
-
-**Observação importante**: Em ambas as telas o formato de visualização das strings deve ser seguido à risca, por exemplo: **"Marca - Modelo (Ano)"** deve virar **"Honda - Fit EXL (2014)"**.
-
-## **Apresentação**
-
-É obrigatório que além do código desenvolvido, exista uma documentação detalhando como você chegou na solução apresentada. Além disso, é fundamental expor um passo a passo de como executar a aplicação desenvolvida.
-
-## **Avaliação**
-
-A avaliação será centrada na sua capacidade de organização, arquitetura de software e utilização de boas práticas como design patterns. Além disso, sua capacidade de replicar a interface visual proposta será um ponto chave.
-
-## **Envio**
-
-Você deverá fazer um fork desse repositório e enviar um pull request com a sua solução.
-
-## **Observações Finais e Prazo**
-
-O desafio deverá ser entregue em até 3 dias após o recebimento.
+## **Execução **

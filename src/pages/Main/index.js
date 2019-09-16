@@ -1,12 +1,5 @@
 /* eslint-disable no-await-in-loop */
-import {
-  ActivityIndicator,
-  Text,
-  View,
-  Image,
-  ToastAndroid,
-} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ActivityIndicator, Text, Image, ToastAndroid } from 'react-native';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -33,6 +26,7 @@ import {
   PriceText,
   Waiting,
   WaitingText,
+  CarTouchable,
 } from './styles';
 
 import SearchImage from '../../assets/images/search.png';
@@ -51,11 +45,10 @@ class Main extends Component {
     super(props);
     this.state = {
       cars: [],
-      carModel: '',
+      carSearch: '',
       randomBrand: 0,
       bufferSize: 10,
-      loading: false,
-      loadingList: true,
+      loading: true,
     };
   }
 
@@ -64,7 +57,7 @@ class Main extends Component {
       const randomBrand = await this.getRandomBrand();
       const cars = await this.getCarsFromBrand(randomBrand);
 
-      this.setState({ cars, randomBrand, loadingList: false });
+      this.setState({ cars, randomBrand, loading: false });
     } catch (error) {
       this.showError('no servidor', error);
     }
@@ -96,7 +89,10 @@ class Main extends Component {
   getCarsFromBrand = async brand => {
     const { bufferSize, randomBrand } = this.state;
     const brandToSearch = brand !== null ? brand : randomBrand;
+
+    // Marca para testes com todos os itens.
     brandToSearch.id = 47;
+
     try {
       const { data } = await api.get(`/marcas/${brandToSearch.id}/modelos`);
 
@@ -152,36 +148,43 @@ class Main extends Component {
       ToastAndroid.LONG
     );
 
+    // eslint-disable-next-line no-console
     console.tron.log(error);
   };
 
-  handleSearch = async () => {
-    const { carModel, cars } = this.state;
-
-    cars.push({
-      id: '1133',
-      brand: 'Marca',
-      model: 'Modelo',
-      transmission: 'Transmissão',
-      price: 'R$ 92.799,00',
-    });
-    this.setState({ cars, carModel });
-  };
+  handleSearch = async () => {};
 
   handleNavigate = car => {
     const { navigation } = this.props;
     navigation.navigate('Detail', { car });
   };
 
-  loadItems = () => {
-    // this.setState({ loadingList: true });
+  getCarElements = filterText => {
+    const { cars } = this.state;
+    const carElements = [];
+    let filteredCars = cars;
+
+    if (filterText) {
+      filteredCars = cars.filter(element => {
+        return (
+          element.model.toLowerCase().indexOf(filterText.toLowerCase()) >= 0
+        );
+      });
+    }
+
+    filteredCars.forEach(element => {
+      carElements.push(this.renderItem(element));
+    });
+
+    return carElements;
   };
 
-  renderItem = ({ item }) => (
-    <TouchableOpacity
+  renderItem = item => (
+    <CarTouchable
       onPress={() => {
         this.handleNavigate(item);
       }}
+      key={item.id}
     >
       <Car>
         <Figure source={CarImage} />
@@ -208,23 +211,12 @@ class Main extends Component {
           </Price>
         </Info>
       </Car>
-    </TouchableOpacity>
+    </CarTouchable>
   );
 
-  renderFooter = () => {
-    const { loadingList } = this.state;
-
-    if (!loadingList) return null;
-    return (
-      <Waiting>
-        <WaitingText>Aguarde, estamos buscando os veículos!</WaitingText>
-        <ActivityIndicator size="large" color="#475ad1" />
-      </Waiting>
-    );
-  };
-
   render() {
-    const { carModel, cars, loading } = this.state;
+    const { carSearch, loading } = this.state;
+    const carsElement = this.getCarElements(carSearch);
 
     return (
       <Container>
@@ -234,28 +226,37 @@ class Main extends Component {
             autoCorrect={false}
             autoCapitalize="none"
             placeholder="Ache seu carro..."
-            value={carModel}
-            onChangeText={text => this.setState({ carModel: text })}
+            value={carSearch}
+            onChangeText={text => this.setState({ carSearch: text })}
             returnKeyType="send"
             onSubmitEditing={this.handleSearch}
           />
           <SubmitButton loading={loading} onPress={this.handleSearch}>
             {loading ? (
-              <ActivityIndicator color="#FFF" />
+              <ActivityIndicator color="#475ad1" />
             ) : (
               <Image source={SearchImage} />
             )}
           </SubmitButton>
         </Form>
 
-        <List
+        {/* <List
           data={cars}
           keyExtractor={car => car.id}
           onEndReached={this.loadItems}
           renderItem={this.renderItem}
           onEndReachedThreshold={0.1}
-          ListFooterComponent={this.renderFooter}
-        />
+          ListFooterComponent={this.renderFoot er}
+        /> */}
+
+        {loading ? (
+          <Waiting>
+            <WaitingText>Aguarde, estamos buscando os veículos!</WaitingText>
+            <ActivityIndicator size="large" color="#475ad1" />
+          </Waiting>
+        ) : (
+          <List>{carsElement}</List>
+        )}
       </Container>
     );
   }

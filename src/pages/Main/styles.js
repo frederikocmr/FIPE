@@ -44,7 +44,8 @@ export const SubmitButton = styled(RectButton)`
   opacity: ${props => (props.loading ? 0.7 : 1)};
 `;
 
-export const List = styled.FlatList.attrs({
+// ou Flatlist
+export const List = styled.ScrollView.attrs({
   showsVerticalScrollIndicator: false,
 })`
   margin-top: 29px;
@@ -55,13 +56,16 @@ export const Car = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
   background-color: #fff;
   border: #fff;
   border-radius: 13px;
   padding: 20px 26px;
   margin-bottom: 20px;
   height: 152px;
+`;
+
+export const CarTouchable = styled(RectButton)`
+  flex: 1;
 `;
 
 export const Figure = styled.Image`
@@ -150,12 +154,13 @@ export const Waiting = styled.View`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
   border: 1px solid #fff;
+  background-color: #fff;
   border-radius: 13px;
   padding: 20px 26px;
   margin-bottom: 20px;
   height: 152px;
+  margin-top: 29px;
 `;
 
 export const WaitingText = styled.Text`
