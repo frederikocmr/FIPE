@@ -47,7 +47,6 @@ class Main extends Component {
       cars: [],
       carSearch: '',
       randomBrand: 0,
-      bufferSize: 10,
       loading: true,
     };
   }
@@ -87,19 +86,16 @@ class Main extends Component {
   };
 
   getCarsFromBrand = async brand => {
-    const { bufferSize, randomBrand } = this.state;
+    const { randomBrand } = this.state;
     const brandToSearch = brand !== null ? brand : randomBrand;
 
     // Marca para testes com todos os itens.
-    brandToSearch.id = 47;
+    // brandToSearch.id = 47;
 
     try {
       const { data } = await api.get(`/marcas/${brandToSearch.id}/modelos`);
 
-      const cars = await this.getCars(
-        data.modelos.slice(bufferSize - bufferSize, bufferSize),
-        brandToSearch.id
-      );
+      const cars = await this.getCars(data.modelos, brandToSearch.id);
 
       return cars;
     } catch (error) {
@@ -239,15 +235,6 @@ class Main extends Component {
             )}
           </SubmitButton>
         </Form>
-
-        {/* <List
-          data={cars}
-          keyExtractor={car => car.id}
-          onEndReached={this.loadItems}
-          renderItem={this.renderItem}
-          onEndReachedThreshold={0.1}
-          ListFooterComponent={this.renderFoot er}
-        /> */}
 
         {loading ? (
           <Waiting>

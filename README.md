@@ -16,7 +16,8 @@ Diante da implementação feita neste projeto, posso dizer que a minha metodolog
 
 - Os testes foram todos feitos no Android, utilizando a última versão no modelo Pixel 3, na API 28.
 
-- Consegui tratar todas as informações e replicar as telas propostas, foi um desafio complexo a partir do momento que percebi que os dados da API Rest viriam sem paginação, ou seja, vários dados a serem tratados e também várias requisições a serem feitas. Para isso eu me preocupei com o desempenho, principalmente da listagem dos dados, e criei a paginação interna dos dados no array, seguindo um fluxo parecido com "infinity scroll", onde renderizava de 10 em 10 itens na medida que o usuário iria abaixando a listagem.
+- Consegui tratar todas as informações e replicar as telas propostas, foi um desafio complexo a partir do momento que percebi que os dados da API Rest viriam sem paginação, ou seja, vários dados a serem tratados e também várias requisições a serem feitas. Para isso eu me preocupei com o desempenho, porém não foi possível fazer uma paginação por conta da requisição trazer todos os dados, e de ter que pegar os dados dos valores dos carros para colocar na listagem principal, ou seja, teria que acessar os modelos, anos, para depois pegar essa informação, então aproveitei e já montei o objeto completo em uma única vez.
+- Foi criado também os loadings na listagem e também na busca. A busca é feita de forma dinâmica, na medida que o usuário digita um valor, ele consegue buscar instantaneamente.
 
 ## **Execução **
 

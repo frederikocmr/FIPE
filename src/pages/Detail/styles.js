@@ -22,15 +22,13 @@ export const Header = styled.Text`
 `;
 
 export const Card = styled.View`
-  flex: 1;
   flex-direction: column;
-  margin-bottom: 10px;
   background-color: #fff;
   border: #fff;
   border-radius: 13px;
   padding: 20px 26px;
   margin-bottom: 20px;
-  height: 462px;
+  height: 500px;
   border-width: 0px;
   /* iOS */
   shadow-color: #003cff;
@@ -41,7 +39,9 @@ export const Card = styled.View`
   /* elevation: 30px; */
 `;
 
-export const CarFigure = styled.Image``;
+export const CarFigure = styled.Image`
+  align-self: center;
+`;
 
 export const Name = styled.Text`
   font-family: 'Product Sans Regular';

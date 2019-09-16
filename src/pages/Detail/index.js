@@ -39,8 +39,6 @@ class Detail extends Component {
     const { navigation } = this.props;
     const car = navigation.getParam('car');
 
-    console.tron.log(car);
-
     this.state = {
       car,
     };
