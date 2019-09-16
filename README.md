@@ -19,13 +19,18 @@ Diante da implementação feita neste projeto, posso dizer que a minha metodolog
 - Consegui tratar todas as informações e replicar as telas propostas, foi um desafio complexo a partir do momento que percebi que os dados da API Rest viriam sem paginação, ou seja, vários dados a serem tratados e também várias requisições a serem feitas. Para isso eu me preocupei com o desempenho, porém não foi possível fazer uma paginação por conta da requisição trazer todos os dados, e de ter que pegar os dados dos valores dos carros para colocar na listagem principal, ou seja, teria que acessar os modelos, anos, para depois pegar essa informação, então aproveitei e já montei o objeto completo em uma única vez.
 - Foi criado também os loadings na listagem e também na busca. A busca é feita de forma dinâmica, na medida que o usuário digita um valor, ele consegue buscar instantaneamente.
 
-## **Execução **
+## **Execução**
 
 - Os passos após ter clonado e baixado todos os arquivos pelo Git são:
-  -- Certifique-se de que tenha o NodeJS instalado.
-  -- Instalar todas as dependencias com: `yarn` ou `npm install` dependendo do gerenciador de pacotes instalados (recomendo o yarn).
-  -- Para rodar no Android, certifique-se de que esteja com o ambiente do Android instalado, como SDK do Android, JDK8 uma Virtual Device do Android e rodando. Ou somente tenha um dispositivo conectado pelo USB com o modo Debug ativado.
-  -- Do mesmo modo, para rodar no iOS, certifique-se de que esteja com todos os requisitos de ambiente instalados e o XCode rodando com um dispositivo virtual.
-  -- Execute os comandos: `react-native run-android` ou `react-native run-ios` dependendo do dispositivo disponível.
+
+- Certifique-se de que tenha o NodeJS instalado.
+
+- Instalar todas as dependencias com: `yarn` ou `npm install` dependendo do gerenciador de pacotes instalados (recomendo o yarn).
+
+- Para rodar no Android, certifique-se de que esteja com o ambiente do Android instalado, como SDK do Android, JDK8 uma Virtual Device do Android e rodando. Ou somente tenha um dispositivo conectado pelo USB com o modo Debug ativado.
+
+- Do mesmo modo, para rodar no iOS, certifique-se de que esteja com todos os requisitos de ambiente instalados e o XCode rodando com um dispositivo virtual.
+
+- Execute os comandos: `react-native run-android` ou `react-native run-ios` dependendo do dispositivo disponível.
 
 * Recomendável instalar o CLI do React Native globalmente.
