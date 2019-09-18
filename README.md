@@ -1,6 +1,12 @@
-# Desafio React Native - Liber
+# App em React Native - Tabela FIPE
 
 ## **Detalhes da Solução**
+
+- App construído em React Native para consultar API de dados de carros e da tabela FIPE, tendo a listagem dos mesmos e detalhes de cada um.
+
+-**ProtÃ³tipo:** https://xd.adobe.com/view/c1352240-1398-474b-76a5-589b836fc663-b704
+
+-**Dev:** https://xd.adobe.com/spec/81b9d0f0-3d5b-4a2c-73a5-ad7c859a508a-f788/
 
 Diante da implementação feita neste projeto, posso dizer que a minha metodologia de abordagem diante das regras foi a seguinte:
 
